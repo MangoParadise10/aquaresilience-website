@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AquaResilience design system — deep blue sea, aqua accents, near-black ink. */
+
+@layer base {
+  :root {
+    /* Core ink + paper */
+    --background: 210 20% 98%;
+    --foreground: 215 35% 8%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 215 35% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 35% 8%;
+
+    /* Deep sea primary */
+    --primary: 215 80% 14%;
+    --primary-foreground: 180 60% 92%;
+
+    /* Aqua accent */
+    --accent: 184 78% 48%;
+    --accent-foreground: 215 80% 10%;
+
+    --secondary: 210 25% 94%;
+    --secondary-foreground: 215 35% 12%;
+
+    --muted: 210 20% 95%;
+    --muted-foreground: 215 16% 42%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 184 78% 48%;
+
+    --radius: 0.25rem;
+
+    /* Sea gradient stops */
+    --sea-1: 215 90% 6%;       /* abyss */
+    --sea-2: 215 85% 14%;      /* deep */
+    --sea-3: 205 75% 26%;      /* mid */
+    --sea-4: 190 70% 38%;      /* surface */
+    --sea-aqua: 184 78% 52%;   /* aqua highlight */
+
+    --gradient-sea: linear-gradient(
+      135deg,
+      hsl(var(--sea-1)) 0%,
+      hsl(var(--sea-2)) 35%,
+      hsl(var(--sea-3)) 70%,
+      hsl(var(--sea-4)) 100%
+    );
+    --gradient-sea-soft: linear-gradient(
+      180deg,
+      hsl(var(--sea-2)) 0%,
+      hsl(var(--sea-3)) 100%
+    );
+    --gradient-aqua-line: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(var(--sea-aqua) / 0.8) 50%,
+      transparent 100%
+    );
+
+    --shadow-sea: 0 30px 80px -30px hsl(var(--sea-1) / 0.55);
+    --shadow-card: 0 1px 0 hsl(var(--border)), 0 12px 32px -16px hsl(var(--sea-2) / 0.18);
+
+    --transition-base: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', 'Times New Roman', serif;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .sea-bg {
+    background: var(--gradient-sea);
+  }
+  .sea-bg-soft {
+    background: var(--gradient-sea-soft);
+  }
+  .aqua-rule {
+    height: 1px;
+    background: var(--gradient-aqua-line);
+  }
+  .eyebrow {
+    @apply text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium;
+  }
+  .eyebrow-light {
+    @apply text-xs uppercase tracking-[0.18em] font-medium;
+    color: hsl(var(--sea-aqua));
+  }
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-6 md:px-10;
+  }
+  .display {
+    @apply text-4xl md:text-6xl lg:text-7xl leading-[1.02];
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    letter-spacing: -0.035em;
+  }
+  .display-sm {
+    @apply text-3xl md:text-4xl lg:text-5xl leading-[1.05];
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+  }
+  .lede {
+    @apply text-lg md:text-xl text-muted-foreground leading-relaxed;
+  }
+}
