@@ -1,3 +1,3 @@
-# Welcome to your Lovable project
+# AquaResilience Website
 
-TODO: Document your project here
+Initial website for AquaResilience.
