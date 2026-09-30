@@ -110,11 +110,11 @@ const JoinUs = () => {
         <div className="container-page py-24 md:py-32">
           <div className="eyebrow-light mb-6">Join us</div>
           <h1 className="display max-w-4xl text-primary-foreground">
-            Help build <span className="italic text-sea-aqua">AquaResilience</span>.
+            Help build <span className="italic text-sea-aqua">Dignoria</span>.
           </h1>
           <p className="lede mt-6 text-primary-foreground/75 max-w-2xl">
             We're early. We're looking for thoughtful, capable people who want to help solve a real
-            industrial problem — software, data, water, compliance, design, or startup building.
+            water problem — software, data, water, compliance, design, or startup building.
           </p>
         </div>
         <div className="aqua-rule" />
@@ -144,7 +144,7 @@ const JoinUs = () => {
           <ul className="space-y-3 text-foreground/85 leading-relaxed">
             {[
               "Help shape the product from day zero.",
-              "Solve a real, under-addressed industrial problem.",
+              "Solve a real, under-addressed water problem.",
               "Work at the intersection of operations, data, compliance, and sustainability.",
               "Collaborate directly with the founder.",
               "Bring your expertise into something high-conviction and practical.",
@@ -241,7 +241,7 @@ const JoinUs = () => {
               </Field>
             </div>
             <div data-error={!!errors.whyInterested}>
-              <Field label="Why are you interested in AquaResilience?" required error={errors.whyInterested}>
+              <Field label="Why are you interested in Dignoria?" required error={errors.whyInterested}>
                 <textarea rows={4} className={fieldBase} value={data.whyInterested} onChange={(e) => set("whyInterested", e.target.value)} />
               </Field>
             </div>
@@ -260,7 +260,7 @@ const JoinUs = () => {
                   onChange={(e) => set("consent", e.target.checked as unknown as true)}
                   className="mt-1 h-4 w-4 accent-sea-3" />
                 <span className="text-sm text-foreground/80">
-                  I agree to be contacted regarding AquaResilience opportunities and collaboration.
+                  I agree to be contacted regarding Dignoria opportunities and collaboration.
                 </span>
               </label>
               {errors.consent && <div className="text-xs text-destructive mt-1.5 flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.consent}</div>}

@@ -1,8 +1,8 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Seo } from "./Seo";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -13,8 +13,9 @@ const ScrollToTop = () => {
 export const Layout = () => (
   <div className="min-h-screen flex flex-col">
     <ScrollToTop />
+    <Seo />
     <SiteHeader />
-    <main className="flex-1 pt-16 md:pt-20">
+    <main className="flex-1 pt-20">
       <Outlet />
     </main>
     <SiteFooter />
