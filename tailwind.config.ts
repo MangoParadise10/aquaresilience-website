@@ -27,6 +27,8 @@ export default {
           4: "hsl(var(--sea-4))",
           aqua: "hsl(var(--sea-aqua))",
         },
+        stone: "hsl(var(--stone))",
+        clay: "hsl(var(--clay))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

@@ -2,73 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* AquaResilience design system — deep blue sea, aqua accents, near-black ink. */
+/* Dignoria design system: deep water ink, reclaimed teal, aqua highlight, warm stone for the human side. */
 
 @layer base {
   :root {
-    /* Core ink + paper */
-    --background: 210 20% 98%;
-    --foreground: 215 35% 8%;
+    --background: 40 33% 98%;
+    --foreground: 205 45% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 35% 8%;
+    --card-foreground: 205 45% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 35% 8%;
+    --popover-foreground: 205 45% 10%;
 
-    /* Deep sea primary */
-    --primary: 215 80% 14%;
-    --primary-foreground: 180 60% 92%;
+    --primary: 203 62% 13%;
+    --primary-foreground: 40 40% 97%;
 
-    /* Aqua accent */
-    --accent: 184 78% 48%;
-    --accent-foreground: 215 80% 10%;
+    --accent: 181 58% 44%;
+    --accent-foreground: 203 62% 10%;
 
-    --secondary: 210 25% 94%;
-    --secondary-foreground: 215 35% 12%;
+    --secondary: 38 30% 93%;
+    --secondary-foreground: 205 45% 12%;
 
-    --muted: 210 20% 95%;
-    --muted-foreground: 215 16% 42%;
+    --muted: 38 25% 94%;
+    --muted-foreground: 205 14% 40%;
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 88%;
-    --input: 210 20% 88%;
-    --ring: 184 78% 48%;
+    --border: 35 18% 86%;
+    --input: 35 18% 86%;
+    --ring: 181 58% 44%;
 
-    --radius: 0.25rem;
+    --radius: 0.75rem;
 
-    /* Sea gradient stops */
-    --sea-1: 215 90% 6%;       /* abyss */
-    --sea-2: 215 85% 14%;      /* deep */
-    --sea-3: 205 75% 26%;      /* mid */
-    --sea-4: 190 70% 38%;      /* surface */
-    --sea-aqua: 184 78% 52%;   /* aqua highlight */
+    /* Water scale, darkest to lightest */
+    --sea-1: 205 70% 7%;
+    --sea-2: 203 62% 13%;
+    --sea-3: 195 58% 22%;
+    --sea-4: 188 52% 34%;
+    --sea-aqua: 181 62% 52%;
 
-    --gradient-sea: linear-gradient(
-      135deg,
-      hsl(var(--sea-1)) 0%,
-      hsl(var(--sea-2)) 35%,
-      hsl(var(--sea-3)) 70%,
-      hsl(var(--sea-4)) 100%
-    );
-    --gradient-sea-soft: linear-gradient(
-      180deg,
-      hsl(var(--sea-2)) 0%,
-      hsl(var(--sea-3)) 100%
-    );
-    --gradient-aqua-line: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(var(--sea-aqua) / 0.8) 50%,
-      transparent 100%
-    );
+    /* Human warmth: stone and clay */
+    --stone: 38 30% 93%;
+    --clay: 22 55% 52%;
 
-    --shadow-sea: 0 30px 80px -30px hsl(var(--sea-1) / 0.55);
-    --shadow-card: 0 1px 0 hsl(var(--border)), 0 12px 32px -16px hsl(var(--sea-2) / 0.18);
+    --gradient-sea: linear-gradient(160deg, hsl(var(--sea-1)) 0%, hsl(var(--sea-2)) 45%, hsl(var(--sea-3)) 100%);
+    --gradient-sea-soft: linear-gradient(180deg, hsl(var(--sea-2)) 0%, hsl(var(--sea-3)) 100%);
+    --gradient-aqua-line: linear-gradient(90deg, transparent 0%, hsl(var(--sea-aqua) / 0.8) 50%, transparent 100%);
 
-    --transition-base: cubic-bezier(0.22, 1, 0.36, 1);
+    --shadow-card: 0 1px 2px hsl(var(--sea-1) / 0.04), 0 16px 40px -24px hsl(var(--sea-2) / 0.25);
+    --shadow-lift: 0 2px 4px hsl(var(--sea-1) / 0.06), 0 28px 60px -28px hsl(var(--sea-2) / 0.4);
+
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -88,53 +74,110 @@
   html {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    font-feature-settings: 'ss01', 'cv11';
   }
   h1, h2, h3, h4 {
     font-family: 'Fraunces', 'Times New Roman', serif;
     font-weight: 400;
     letter-spacing: -0.02em;
   }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
 }
 
 @layer components {
-  .sea-bg {
-    background: var(--gradient-sea);
-  }
-  .sea-bg-soft {
-    background: var(--gradient-sea-soft);
-  }
-  .aqua-rule {
-    height: 1px;
-    background: var(--gradient-aqua-line);
-  }
+  .sea-bg { background: var(--gradient-sea); }
+  .sea-bg-soft { background: var(--gradient-sea-soft); }
+  .aqua-rule { height: 1px; background: var(--gradient-aqua-line); }
+
   .eyebrow {
-    @apply text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium;
+    @apply text-xs uppercase tracking-[0.2em] text-sea-4 font-semibold;
   }
   .eyebrow-light {
-    @apply text-xs uppercase tracking-[0.18em] font-medium;
+    @apply text-xs uppercase tracking-[0.2em] font-semibold;
     color: hsl(var(--sea-aqua));
   }
   .container-page {
-    @apply mx-auto w-full max-w-6xl px-6 md:px-10;
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12;
   }
   .display {
-    @apply text-4xl md:text-6xl lg:text-7xl leading-[1.02];
+    @apply text-[2.75rem] sm:text-6xl lg:text-[5.5rem] leading-[0.98];
     font-family: 'Fraunces', serif;
     font-weight: 300;
     letter-spacing: -0.035em;
   }
-  .display-sm {
-    @apply text-3xl md:text-4xl lg:text-5xl leading-[1.05];
+  .display-md {
+    @apply text-4xl sm:text-5xl lg:text-6xl leading-[1.02];
     font-family: 'Fraunces', serif;
     font-weight: 300;
     letter-spacing: -0.03em;
   }
+  .display-sm {
+    @apply text-3xl md:text-4xl lg:text-[2.75rem] leading-[1.08];
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    letter-spacing: -0.025em;
+  }
   .lede {
     @apply text-lg md:text-xl text-muted-foreground leading-relaxed;
   }
+  .prose-body p + p { @apply mt-5; }
+
+  .card-lift {
+    @apply bg-card rounded-2xl border border-border transition-all duration-500;
+    box-shadow: var(--shadow-card);
+    transition-timing-function: var(--ease);
+  }
+  .card-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+    border-color: hsl(var(--sea-aqua) / 0.5);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300;
+    background: hsl(var(--sea-aqua));
+    color: hsl(var(--sea-1));
+  }
+  .btn-primary:hover { background: hsl(var(--sea-aqua) / 0.85); transform: translateY(-1px); }
+  .btn-dark {
+    @apply inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold bg-primary text-primary-foreground transition-all duration-300;
+  }
+  .btn-dark:hover { background: hsl(var(--sea-3)); transform: translateY(-1px); }
+  .btn-ghost-light {
+    @apply inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold border border-white/30 text-white transition-all duration-300;
+  }
+  .btn-ghost-light:hover { background: rgb(255 255 255 / 0.08); border-color: rgb(255 255 255 / 0.6); }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold border border-foreground/20 transition-all duration-300;
+  }
+  .btn-ghost:hover { border-color: hsl(var(--foreground)); }
+
+  .link-arrow {
+    @apply inline-flex items-center gap-2 text-sm font-semibold text-sea-3 transition-colors;
+  }
+  .link-arrow:hover { color: hsl(var(--sea-4)); }
+  .link-arrow svg { transition: transform 0.3s var(--ease); }
+  .link-arrow:hover svg { transform: translateX(4px); }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.9s var(--ease), transform 0.9s var(--ease); }
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  .grain {
+    background-image: radial-gradient(hsl(var(--sea-aqua) / 0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
 }
+
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.animate-spin-slow { animation: spin-slow 60s linear infinite; transform-origin: center; transform-box: fill-box; }
+
+@keyframes flow { to { stroke-dashoffset: -200; } }
+.animate-flow { animation: flow 8s linear infinite; }

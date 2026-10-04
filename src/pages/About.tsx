@@ -1,74 +1,162 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Check, Linkedin, Plus } from "lucide-react";
+import { about, brand, team } from "@/content/site";
+import { Noria } from "@/components/site/Art";
+import { CtaBand, EmergingNote, Num, PageHero, Section, SectionHead } from "@/components/site/Blocks";
+import { Reveal } from "@/components/site/Reveal";
+
+const failures = about.notEnough.body[0].split(". ").map((s) => s.replace(/\.$/, "") + ".");
+
+const TeamGrid = () => {
+  const [open, setOpen] = useState<string | null>(null);
+  if (!team.length) return null;
+  return (
+    <Section>
+      <div className="container-page">
+        <SectionHead eyebrow="People" title="The team behind Dignoria." />
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {team.map((m) => (
+            <Reveal key={m.name} className="card-lift overflow-hidden">
+              <div className="aspect-[4/5] bg-stone">
+                {m.photo && <img src={m.photo} alt={m.name} className="h-full w-full object-cover" />}
+              </div>
+              <div className="p-6">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h3 className="font-display text-xl">{m.name}</h3>
+                    <p className="text-sm text-muted-foreground">{m.role}</p>
+                  </div>
+                  {m.linkedin && <a href={m.linkedin} aria-label={`${m.name} on LinkedIn`} className="text-sea-4 hover:text-sea-3"><Linkedin className="h-5 w-5" /></a>}
+                </div>
+                <button onClick={() => setOpen(open === m.name ? null : m.name)} className="link-arrow mt-4" aria-expanded={open === m.name}>
+                  Bio <Plus className={`h-4 w-4 transition-transform ${open === m.name ? "rotate-45" : ""}`} />
+                </button>
+                {open === m.name && <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{m.bio}</p>}
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+};
 
 const About = () => (
   <>
-    <section className="sea-bg text-primary-foreground">
-      <div className="container-page py-24 md:py-32">
-        <div className="eyebrow-light mb-6">About · Founder</div>
-        <h1 className="display max-w-4xl text-primary-foreground">
-          Building at the intersection of <span className="italic text-sea-aqua">policy, operations, and data</span>.
-        </h1>
+    <PageHero eyebrow={about.title} title={<>{brand.tagline[0]} <span className="italic text-sea-aqua">{brand.tagline[1]}</span></>} lead={about.lead} />
+
+    <Section>
+      <div className="container-page grid lg:grid-cols-12 gap-12">
+        <div className="lg:col-span-5">
+          <SectionHead eyebrow="Why we exist" title="Dignoria sees another possibility." />
+        </div>
+        <Reveal className="lg:col-span-6 lg:col-start-7 prose-body text-lg leading-relaxed text-foreground/80">
+          {about.intro.filter((p) => p !== "Dignoria sees another possibility.").map((p) => <p key={p}>{p}</p>)}
+        </Reveal>
       </div>
-      <div className="aqua-rule" />
-    </section>
+    </Section>
 
-    <section className="py-20 md:py-28">
-      <div className="container-page grid md:grid-cols-12 gap-12">
-        <div className="md:col-span-4">
-          <div className="aspect-[4/5] bg-gradient-to-br from-sea-2 to-sea-4 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-30" style={{
-              backgroundImage: "radial-gradient(circle at 30% 20%, hsl(var(--sea-aqua) / 0.6), transparent 50%)"
-            }} />
-            <div className="absolute bottom-6 left-6 right-6 text-primary-foreground">
-              <div className="font-display text-2xl">Neeraj Srivastava</div>
-              <div className="text-sm text-primary-foreground/70 mt-1">Founder</div>
-            </div>
-          </div>
+    <section className="sea-bg text-white py-20 md:py-28">
+      <div className="container-page">
+        <SectionHead title={about.notEnough.headline} light />
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {failures.map((f, i) => (
+            <Reveal key={f} delay={i * 100} className="rounded-2xl border border-white/10 bg-white/[0.04] p-8">
+              <Num n={i + 1} light />
+              <p className="mt-4 text-lg leading-relaxed text-white/85">{f}</p>
+            </Reveal>
+          ))}
         </div>
-        <div className="md:col-span-7 md:col-start-6">
-          <div className="eyebrow mb-4">Founder</div>
-          <h2 className="display-sm mb-6">Neeraj Srivastava</h2>
-          <p className="text-foreground/80 leading-relaxed text-lg">
-            AquaResilience is founded by Neeraj, an envirotech entrepreneur with a deep curiosity
-            for water and a background that bridges technical, policy, and human-centered
-            perspectives.
-          </p>
-
-          <div className="mt-10 grid sm:grid-cols-2 gap-8">
-            <div>
-              <div className="eyebrow mb-3">Background</div>
-              <ul className="space-y-2 text-muted-foreground text-sm">
-                <li>Master's in Environmental Policy &amp; Management</li>
-                <li>BA (Hons.) in Justice and Public Policy</li>
-              </ul>
-            </div>
-            <div>
-              <div className="eyebrow mb-3">Focus</div>
-              <ul className="space-y-2 text-muted-foreground text-sm">
-                <li>Deep customer discovery &amp; industry engagement</li>
-                <li>Translating complex problems into clear solutions</li>
-                <li>Building trust with operators &amp; engineers</li>
-                <li>Shaping product strategy around real pain points</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="mt-10 p-6 border-l-2 border-sea-aqua bg-secondary/40 italic text-foreground/80">
-            Currently speaking with food &amp; beverage operators, environmental professionals, and
-            technical collaborators to validate this problem and shape the first product.
-          </div>
-
-          <div className="mt-10 flex gap-3">
-            <Link to="/contact" className="px-6 py-3 bg-primary text-primary-foreground hover:bg-sea-2 transition-colors">
-              Get in touch
-            </Link>
-            <Link to="/join" className="px-6 py-3 border border-border hover:border-foreground transition-colors">
-              Join us
-            </Link>
-          </div>
-        </div>
+        <Reveal className="mt-12 max-w-3xl text-lg leading-relaxed text-white/75">{about.notEnough.body[1]}</Reveal>
       </div>
     </section>
+
+    <Section>
+      <div className="container-page">
+        <SectionHead eyebrow="Origin of the name" title={about.name.headline} />
+        <div className="mt-14 grid gap-6 lg:grid-cols-[1fr_auto_1fr_auto_1fr] items-stretch">
+          <Reveal className="card-lift p-8">
+            <div className="eyebrow mb-4">Dignity</div>
+            <p className="text-lg leading-relaxed">{about.name.dignity}</p>
+          </Reveal>
+          <div className="hidden lg:grid place-items-center font-display text-4xl text-sea-4">+</div>
+          <Reveal delay={100} className="card-lift p-8 relative overflow-hidden">
+            <Noria className="absolute -right-16 -bottom-16 w-56 text-sea-aqua/15" />
+            <div className="eyebrow mb-4">Noria</div>
+            <p className="relative text-lg leading-relaxed">{about.name.noria}</p>
+          </Reveal>
+          <div className="hidden lg:grid place-items-center font-display text-4xl text-sea-4">=</div>
+          <Reveal delay={200} className="rounded-2xl sea-bg p-8 text-white flex flex-col justify-center">
+            <div className="font-display text-4xl">Dignoria</div>
+            <p className="mt-4 font-display text-2xl leading-snug">{brand.tagline[0]} <span className="italic text-sea-aqua">{brand.tagline[1]}</span></p>
+          </Reveal>
+        </div>
+      </div>
+    </Section>
+
+    <Section className="bg-stone">
+      <div className="container-page">
+        <div className="grid gap-6 md:grid-cols-3">
+          {about.pmv.map((v, i) => (
+            <Reveal key={v.title} delay={i * 100} className="card-lift p-8 md:p-10">
+              <div className="eyebrow mb-5">{v.title}</div>
+              <p className={`leading-relaxed ${i === 0 ? "font-display text-2xl" : "text-foreground/80"}`}>{v.text}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </Section>
+
+    <Section>
+      <div className="container-page grid lg:grid-cols-12 gap-12">
+        <div className="lg:col-span-5">
+          <SectionHead eyebrow="Our promise" title={about.promise.headline} intro={about.promise.intro} />
+        </div>
+        <ol className="lg:col-span-6 lg:col-start-7 border-t border-border">
+          {about.promise.items.map((p, i) => (
+            <Reveal as="li" key={p} delay={i * 70} className="flex items-baseline gap-6 border-b border-border py-6">
+              <Num n={i + 1} />
+              <span className="font-display text-2xl">{p}</span>
+            </Reveal>
+          ))}
+        </ol>
+      </div>
+    </Section>
+
+    <Section className="bg-stone">
+      <div className="container-page grid lg:grid-cols-12 gap-12">
+        <div className="lg:col-span-5">
+          <SectionHead eyebrow="Looking ahead" title={about.ambition.headline} intro={about.ambition.intro} />
+          <Reveal className="mt-8"><EmergingNote>Dignoria is an emerging venture. These are ambitions, not yet operating results.</EmergingNote></Reveal>
+        </div>
+        <ul className="lg:col-span-6 lg:col-start-7 space-y-3">
+          {about.ambition.items.map((a, i) => (
+            <Reveal as="li" key={a} delay={i * 60} className="flex gap-4 rounded-xl bg-background border border-border p-5">
+              <Check className="mt-0.5 h-5 w-5 shrink-0 text-sea-4" />
+              <span className="leading-relaxed">{a}</span>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </Section>
+
+    <Section>
+      <div className="container-page">
+        <SectionHead eyebrow="How we will be measured" title={about.success.headline}
+          intro={<>{about.success.intro.map((p) => <p key={p} className="mt-2 first:mt-0">{p}</p>)}</>} />
+        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border bg-border grid-cols-2 lg:grid-cols-4">
+          {about.success.items.map((s, i) => (
+            <Reveal key={s} delay={(i % 4) * 70} className={`p-8 md:p-10 transition-colors ${i === about.success.items.length - 1 ? "sea-bg text-white" : "bg-background hover:bg-stone"}`}>
+              <Num n={i + 1} light={i === about.success.items.length - 1} />
+              <p className="mt-6 font-display text-xl md:text-2xl leading-tight">{s}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </Section>
+
+    <TeamGrid />
+    <CtaBand />
   </>
 );
 

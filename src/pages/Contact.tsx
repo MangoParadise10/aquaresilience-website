@@ -1,30 +1,69 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { z } from "zod";
-import { supabase } from "@/integrations/supabase/client";
-import { ArrowRight, CheckCircle2, AlertCircle, Loader2, Mail } from "lucide-react";
+import { AlertCircle, ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
+import { contactPage } from "@/content/site";
+import { EmergingNote, PageHero, Section } from "@/components/site/Blocks";
+import { Reveal } from "@/components/site/Reveal";
+
+// Submissions go to Netlify Forms (form name "contact"). A matching static form in
+// index.html lets Netlify detect the fields at build time. Email notifications are
+// configured in the Netlify dashboard under Forms > Form notifications.
+const FORM_NAME = "contact";
+
+const reasons = ["Bring a water challenge", "Partner with Dignoria"];
+const orgTypes = [
+  "Utility or municipality", "Industrial facility", "Major development", "Community or community organization",
+  "Research or academic institution", "Technology company", "Engineering or operating firm",
+  "Investor, foundation or public agency", "Other",
+];
+const timelines = ["Exploring for now", "Within 6 months", "6 to 12 months", "More than 12 months", "Not sure yet"];
 
 const schema = z.object({
+  reason: z.string().min(1),
   name: z.string().trim().min(1, "Required").max(120),
-  email: z.string().trim().email("Invalid email").max(255),
-  organization: z.string().trim().max(120).optional().or(z.literal("")),
-  topic: z.string().min(1, "Required"),
-  message: z.string().trim().min(10, "Tell us a bit more").max(3000),
+  organization: z.string().trim().max(160).optional().or(z.literal("")),
+  email: z.string().trim().email("Enter a valid email").max(255),
+  location: z.string().trim().max(160).optional().or(z.literal("")),
+  organizationType: z.string().min(1, "Required"),
+  challenge: z.string().trim().min(10, "Tell us a little more").max(4000),
+  affected: z.string().trim().max(2000).optional().or(z.literal("")),
+  attempted: z.string().trim().max(2000).optional().or(z.literal("")),
+  outcome: z.string().trim().max(2000).optional().or(z.literal("")),
+  timeline: z.string().optional().or(z.literal("")),
+  heardAbout: z.string().trim().max(300).optional().or(z.literal("")),
 });
 type FormData = z.infer<typeof schema>;
 
-const initial: FormData = { name: "", email: "", organization: "", topic: "", message: "" };
-const topics = ["Pilot partner", "Industry conversation", "Advisor / collaborator", "Press or other"];
-const fieldBase = "w-full bg-background border border-border px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:border-sea-aqua focus:outline-none transition-colors";
+const field = "w-full rounded-xl bg-background border border-border px-4 py-3 text-foreground placeholder:text-muted-foreground/60 focus:border-sea-aqua focus:ring-2 focus:ring-sea-aqua/20 focus:outline-none transition";
+
+const Field = ({ label, required, error, children, className = "" }: {
+  label: string; required?: boolean; error?: string; children: React.ReactNode; className?: string;
+}) => (
+  <label className={`block ${className}`}>
+    <span className="block text-sm font-medium mb-2 text-foreground/85">{label}{required && <span className="text-clay ml-1">*</span>}</span>
+    {children}
+    {error && <span className="mt-1.5 flex items-center gap-1 text-xs text-destructive"><AlertCircle className="h-3 w-3" />{error}</span>}
+  </label>
+);
+
+const encode = (data: Record<string, string>) =>
+  Object.entries(data).map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join("&");
 
 const Contact = () => {
-  const [data, setData] = useState<FormData>(initial);
+  const [params] = useSearchParams();
+  const [data, setData] = useState<FormData>({
+    reason: params.get("topic") === "partner" ? reasons[1] : reasons[0],
+    name: "", organization: "", email: "", location: "", organizationType: "", challenge: "",
+    affected: "", attempted: "", outcome: "", timeline: "", heardAbout: "",
+  });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
-  const [serverError, setServerError] = useState("");
+  const set = (k: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    setData((d) => ({ ...d, [k]: e.target.value }));
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setServerError("");
     const result = schema.safeParse(data);
     if (!result.success) {
       const errs: Record<string, string> = {};
@@ -35,110 +74,104 @@ const Contact = () => {
     setErrors({});
     setStatus("submitting");
     try {
-      const { error } = await supabase.functions.invoke("send-join-submission", {
-        body: { kind: "contact", payload: result.data },
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: encode({ "form-name": FORM_NAME, ...(result.data as Record<string, string>) }),
       });
-      if (error) throw error;
+      if (!res.ok) throw new Error(String(res.status));
       setStatus("success");
-    } catch (err) {
-      setServerError(err instanceof Error ? err.message : "Something went wrong.");
+    } catch {
       setStatus("error");
     }
   };
 
   return (
     <>
-      <section className="sea-bg text-primary-foreground">
-        <div className="container-page py-24 md:py-32">
-          <div className="eyebrow-light mb-6">Contact</div>
-          <h1 className="display max-w-3xl text-primary-foreground">
-            Let's talk.
-          </h1>
-          <p className="lede mt-6 text-primary-foreground/75 max-w-2xl">
-            We're actively talking to operators, environmental professionals, potential pilot
-            partners, and collaborators. If anything here resonates — get in touch.
-          </p>
-        </div>
-        <div className="aqua-rule" />
-      </section>
+      <PageHero eyebrow="Contact" title={contactPage.title}
+        lead={<>{contactPage.intro.map((p) => <p key={p} className="mt-3 first:mt-0">{p}</p>)}</>} />
 
-      <section className="py-20 md:py-28">
-        <div className="container-page grid md:grid-cols-12 gap-12">
-          <div className="md:col-span-4 space-y-8">
-            <div>
-              <div className="eyebrow mb-3">For pilot partners</div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                If you run or work in a facility with water or wastewater reporting needs and want to
-                shape the first version with us — let's talk.
-              </p>
+      <Section>
+        <div className="container-page grid lg:grid-cols-12 gap-12">
+          <aside className="lg:col-span-4">
+            <div className="lg:sticky lg:top-32">
+              <div className="eyebrow mb-5">{contactPage.whoLead}</div>
+              <ul className="space-y-3">
+                {contactPage.who.map((w) => (
+                  <li key={w} className="flex gap-3 text-foreground/80 leading-relaxed">
+                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sea-aqua" />{w}
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div>
-              <div className="eyebrow mb-3">For collaborators</div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                Engineers, designers, domain experts and advisors — see the{" "}
-                <a href="/join" className="text-sea-3 hover:text-sea-aqua">Join Us</a> page or use the form.
-              </p>
-            </div>
-            <div className="border-t border-border pt-6">
-              <div className="flex items-center gap-2 text-foreground">
-                <Mail className="h-4 w-4 text-sea-aqua" />
-                <span className="text-sm">We respond personally.</span>
-              </div>
-            </div>
-          </div>
+          </aside>
 
-          <div className="md:col-span-7 md:col-start-6">
-            {status === "success" ? (
-              <div className="text-center py-12">
-                <CheckCircle2 className="h-12 w-12 text-sea-aqua mx-auto mb-4" />
-                <h2 className="display-sm mb-3">Thank you.</h2>
-                <p className="lede">We've received your message and will be in touch soon.</p>
-              </div>
-            ) : (
-              <form onSubmit={submit} className="space-y-5" noValidate>
-                <label className="block">
-                  <div className="text-sm mb-2 text-foreground/80">Name <span className="text-sea-aqua">*</span></div>
-                  <input className={fieldBase} value={data.name} onChange={(e) => setData({ ...data, name: e.target.value })} />
-                  {errors.name && <div className="text-xs text-destructive mt-1.5 flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.name}</div>}
-                </label>
-                <label className="block">
-                  <div className="text-sm mb-2 text-foreground/80">Email <span className="text-sea-aqua">*</span></div>
-                  <input type="email" className={fieldBase} value={data.email} onChange={(e) => setData({ ...data, email: e.target.value })} />
-                  {errors.email && <div className="text-xs text-destructive mt-1.5 flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.email}</div>}
-                </label>
-                <label className="block">
-                  <div className="text-sm mb-2 text-foreground/80">Organization</div>
-                  <input className={fieldBase} value={data.organization} onChange={(e) => setData({ ...data, organization: e.target.value })} />
-                </label>
-                <label className="block">
-                  <div className="text-sm mb-2 text-foreground/80">Topic <span className="text-sea-aqua">*</span></div>
-                  <select className={fieldBase} value={data.topic} onChange={(e) => setData({ ...data, topic: e.target.value })}>
-                    <option value="">Select…</option>
-                    {topics.map((t) => <option key={t} value={t}>{t}</option>)}
-                  </select>
-                  {errors.topic && <div className="text-xs text-destructive mt-1.5 flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.topic}</div>}
-                </label>
-                <label className="block">
-                  <div className="text-sm mb-2 text-foreground/80">Message <span className="text-sea-aqua">*</span></div>
-                  <textarea rows={6} className={fieldBase} value={data.message} onChange={(e) => setData({ ...data, message: e.target.value })} />
-                  {errors.message && <div className="text-xs text-destructive mt-1.5 flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.message}</div>}
-                </label>
-
-                {serverError && (
-                  <div className="border border-destructive/40 bg-destructive/5 text-destructive text-sm p-4">{serverError}</div>
-                )}
-
-                <div className="pt-2">
-                  <button type="submit" disabled={status === "submitting"}
-                    className="inline-flex items-center gap-2 px-7 py-3.5 bg-primary text-primary-foreground hover:bg-sea-2 transition-colors disabled:opacity-60">
-                    {status === "submitting" ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending…</> : <>Send message <ArrowRight className="h-4 w-4" /></>}
-                  </button>
+          <Reveal className="lg:col-span-7 lg:col-start-6">
+            <div className="rounded-3xl border border-border bg-card p-6 sm:p-10" style={{ boxShadow: "var(--shadow-card)" }}>
+              {status === "success" ? (
+                <div className="py-12 text-center">
+                  <CheckCircle2 className="mx-auto mb-5 h-12 w-12 text-sea-aqua" />
+                  <h2 className="display-sm">Thank you.</h2>
+                  <p className="lede mt-4">We have received your message and will be in touch.</p>
                 </div>
-              </form>
-            )}
-          </div>
+              ) : (
+                <form name={FORM_NAME} onSubmit={submit} noValidate className="space-y-6">
+                  <h2 className="display-sm">{contactPage.formHeading}</h2>
+
+                  <fieldset className="flex flex-wrap gap-2">
+                    <legend className="sr-only">Reason for contact</legend>
+                    {reasons.map((r) => (
+                      <label key={r} className={`cursor-pointer rounded-full border px-4 py-2 text-sm transition ${data.reason === r ? "border-primary bg-primary text-primary-foreground" : "border-border hover:border-foreground/40"}`}>
+                        <input type="radio" name="reason" value={r} checked={data.reason === r} onChange={set("reason")} className="sr-only" />{r}
+                      </label>
+                    ))}
+                  </fieldset>
+
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <Field label="Name" required error={errors.name}><input className={field} value={data.name} onChange={set("name")} autoComplete="name" /></Field>
+                    <Field label="Organization"><input className={field} value={data.organization} onChange={set("organization")} autoComplete="organization" /></Field>
+                    <Field label="Email" required error={errors.email}><input type="email" className={field} value={data.email} onChange={set("email")} autoComplete="email" /></Field>
+                    <Field label="Location"><input className={field} value={data.location} onChange={set("location")} placeholder="City, region or country" /></Field>
+                    <Field label="Type of organization" required error={errors.organizationType} className="sm:col-span-2">
+                      <select className={field} value={data.organizationType} onChange={set("organizationType")}>
+                        <option value="">Select…</option>
+                        {orgTypes.map((o) => <option key={o}>{o}</option>)}
+                      </select>
+                    </Field>
+                  </div>
+                  <Field label="Nature of the water challenge" required error={errors.challenge}>
+                    <textarea rows={5} className={field} value={data.challenge} onChange={set("challenge")} />
+                  </Field>
+                  <Field label="Who is affected?"><textarea rows={3} className={field} value={data.affected} onChange={set("affected")} /></Field>
+                  <Field label="What has already been attempted?"><textarea rows={3} className={field} value={data.attempted} onChange={set("attempted")} /></Field>
+                  <Field label="What outcome are you seeking?"><textarea rows={3} className={field} value={data.outcome} onChange={set("outcome")} /></Field>
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <Field label="Desired project timeline">
+                      <select className={field} value={data.timeline} onChange={set("timeline")}>
+                        <option value="">Select…</option>
+                        {timelines.map((t) => <option key={t}>{t}</option>)}
+                      </select>
+                    </Field>
+                    <Field label="How did you hear about Dignoria?"><input className={field} value={data.heardAbout} onChange={set("heardAbout")} /></Field>
+                  </div>
+
+                  {status === "error" && (
+                    <div className="rounded-xl border border-destructive/40 bg-destructive/5 p-4 text-sm text-destructive">
+                      Something went wrong sending your message. Please try again.
+                    </div>
+                  )}
+
+                  <EmergingNote>{contactPage.disclaimer}</EmergingNote>
+
+                  <button type="submit" disabled={status === "submitting"} className="btn-dark !px-8 !py-3.5 disabled:opacity-60">
+                    {status === "submitting" ? <><Loader2 className="h-4 w-4 animate-spin" /> Sending…</> : <>{contactPage.submit} <ArrowRight className="h-4 w-4" /></>}
+                  </button>
+                </form>
+              )}
+            </div>
+          </Reveal>
         </div>
-      </section>
+      </Section>
     </>
   );
 };
