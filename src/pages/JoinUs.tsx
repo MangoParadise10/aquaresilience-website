@@ -110,7 +110,7 @@ const JoinUs = () => {
         <div className="container-page py-24 md:py-32">
           <div className="eyebrow-light mb-6">Join us</div>
           <h1 className="display max-w-4xl text-primary-foreground">
-            Help build <span className="italic text-sea-aqua">Dignoria</span>.
+            Help build <span className="literary glow-text !font-medium">Dignoria</span>.
           </h1>
           <p className="lede mt-6 text-primary-foreground/75 max-w-2xl">
             We're early. We're looking for thoughtful, capable people who want to help solve a real
