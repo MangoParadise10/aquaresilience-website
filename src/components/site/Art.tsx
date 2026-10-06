@@ -17,39 +17,50 @@ const Silver = ({ id }: { id: string }) => (
 );
 
 /**
- * The Dignoria mark: an eight-pointed Persian star (khatam) holding the noria wheel,
- * with a blue eye of water at its centre, watching, remembering.
+ * The Dignoria mark, the Royal Seal: a solid eight-pointed Persian star (khatam) struck like a
+ * king's seal, the brand line running round the rim, and the noria wheel and blue eye of water
+ * cut out of the metal at its centre.
  */
-export const Mark = ({ className = "" }: ArtProps) => {
+export const Mark = ({ className = "", ring = true }: ArtProps & { ring?: boolean }) => {
   const id = useId().replace(/:/g, "");
-  const sq = "M14 14 H50 V50 H14 Z";
+  const spokes = [
+    [100, 80, 100, 73], [100, 120, 100, 127], [80, 100, 73, 100], [120, 100, 127, 100],
+    [86, 86, 81, 81], [114, 114, 119, 119], [114, 86, 119, 81], [86, 114, 81, 119],
+  ];
   return (
-    <svg viewBox="0 0 64 64" className={className} fill="none" aria-hidden="true">
+    <svg viewBox="0 0 200 200" className={className} fill="none" aria-hidden="true">
       <defs>
         <linearGradient id={`s${id}`} x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#ffffff" />
-          <stop offset="0.4" stopColor="#a8b9d1" />
-          <stop offset="0.6" stopColor="#ffffff" />
-          <stop offset="1" stopColor="#8aa0bd" />
+          <stop offset="0.38" stopColor="#9fb2cc" />
+          <stop offset="0.55" stopColor="#f4f8ff" />
+          <stop offset="1" stopColor="#6f85a5" />
         </linearGradient>
         <radialGradient id={`e${id}`} cx="0.42" cy="0.38" r="0.7">
           <stop offset="0" stopColor="#a5f3fc" />
           <stop offset="0.45" stopColor="#22d3ee" />
           <stop offset="1" stopColor="#1e3a8a" />
         </radialGradient>
+        <path id={`r${id}`} d="M100,100 m-71,0 a71,71 0 1,1 142,0 a71,71 0 1,1 -142,0" />
       </defs>
-      <g stroke={`url(#s${id})`} strokeWidth="2" strokeLinejoin="round">
-        <path d={sq} />
-        <path d={sq} transform="rotate(45 32 32)" />
-        <circle cx="32" cy="32" r="13" strokeWidth="1.6" />
-        {Array.from({ length: 8 }).map((_, i) => {
-          const a = (i * Math.PI) / 4 + Math.PI / 8;
-          return <line key={i} x1={32 + Math.cos(a) * 7.5} y1={32 + Math.sin(a) * 7.5} x2={32 + Math.cos(a) * 13} y2={32 + Math.sin(a) * 13} strokeWidth="1.3" />;
-        })}
+      <circle cx="100" cy="100" r="94" stroke={`url(#s${id})`} strokeWidth="5" />
+      <circle cx="100" cy="100" r="85" stroke={`url(#s${id})`} strokeWidth="1.6" />
+      {ring && (
+        <text fontFamily="Cinzel, Georgia, serif" fontWeight="700" fontSize="11.5" letterSpacing="5.2" fill="#dfe7f3">
+          <textPath href={`#r${id}`}>DIGNORIA · WATER RESTORED · DIGNITY RENEWED ·</textPath>
+        </text>
+      )}
+      <g fill={`url(#s${id})`}>
+        <rect x="62" y="62" width="76" height="76" />
+        <rect x="62" y="62" width="76" height="76" transform="rotate(45 100 100)" />
       </g>
-      <circle cx="32" cy="32" r="6.5" fill={`url(#e${id})`} />
-      <circle cx="32" cy="32" r="2.4" fill="#020617" />
-      <circle cx="30.2" cy="30" r="1.3" fill="#ffffff" />
+      <circle cx="100" cy="100" r="27" fill="#060f2a" />
+      <g stroke={`url(#s${id})`} strokeWidth="3">
+        {spokes.map(([x1, y1, x2, y2]) => <line key={`${x1}${y1}${x2}${y2}`} x1={x1} y1={y1} x2={x2} y2={y2} />)}
+      </g>
+      <circle cx="100" cy="100" r="11" fill={`url(#e${id})`} />
+      <circle cx="100" cy="100" r="4" fill="#020617" />
+      <circle cx="97" cy="96.5" r="2" fill="#fff" />
     </svg>
   );
 };

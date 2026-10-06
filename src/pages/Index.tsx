@@ -51,7 +51,7 @@ const Marquee = () => {
         {row.map((t, i) => (
           <span key={i} className="flex items-center gap-10">
             <span className={`font-display text-3xl md:text-5xl font-extrabold uppercase tracking-tight ${i % 2 ? "outline-text" : "silver-text"}`}>{t}</span>
-            <Mark className="h-8 w-8 shrink-0 opacity-80" />
+            <Mark ring={false} className="h-9 w-9 shrink-0 opacity-80" />
           </span>
         ))}
       </div>
@@ -112,13 +112,13 @@ const Ethos = () => (
   <section className="relative py-28 md:py-40 overflow-hidden">
     <div className="container-page relative">
       <Reveal>
-        <p className="font-display font-extrabold uppercase tracking-tight leading-[0.9] text-[2.6rem] sm:text-7xl lg:text-[6.2rem] outline-text">{ethos.impossible[0]}</p>
+        <p className="font-display font-extrabold uppercase tracking-tight leading-[0.9] text-[1.95rem] sm:text-7xl lg:text-[6.2rem] outline-text">{ethos.impossible[0]}</p>
       </Reveal>
       <Reveal delay={150}>
-        <p className="font-display font-extrabold uppercase tracking-tight leading-[0.9] text-[2.6rem] sm:text-7xl lg:text-[6.2rem] silver-text mt-2">{ethos.impossible[1]}</p>
+        <p className="font-display font-extrabold uppercase tracking-tight leading-[0.9] text-[1.95rem] sm:text-7xl lg:text-[6.2rem] silver-text mt-2">{ethos.impossible[1]}</p>
       </Reveal>
       <Reveal delay={300}>
-        <p className="literary text-4xl sm:text-5xl lg:text-7xl glow-text mt-6 max-w-5xl">{ethos.impossible[2]}</p>
+        <p className="literary text-3xl sm:text-4xl lg:text-[3.4rem] leading-[1.08] glow-text mt-6 max-w-5xl">{ethos.impossible[2]}</p>
       </Reveal>
 
       <div className="mt-20 grid lg:grid-cols-12 gap-6">
@@ -272,7 +272,7 @@ export const Ancient = () => (
           <Reveal className="mt-8">{ancient.body.map((p) => <p key={p}>{p}</p>)}</Reveal>
         </div>
         <Reveal delay={120} className="lg:col-span-5 lg:col-start-8">
-          <blockquote className="literary text-4xl md:text-6xl leading-[1.05] glow-text">“{ancient.quote}”</blockquote>
+          <blockquote className="literary text-[1.7rem] md:text-[2.5rem] leading-[1.12] glow-text">“{ancient.quote}”</blockquote>
         </Reveal>
       </div>
     </div>

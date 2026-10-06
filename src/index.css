@@ -4,6 +4,9 @@
 @import "@fontsource/cormorant-garamond/400-italic.css";
 @import "@fontsource/cormorant-garamond/500-italic.css";
 @import "@fontsource/cormorant-garamond/400.css";
+@import "@fontsource/cinzel/500.css";
+@import "@fontsource/cinzel/600.css";
+@import "@fontsource/cinzel/700.css";
 @import "@fontsource-variable/inter";
 
 @tailwind base;
@@ -53,7 +56,8 @@
     --sea-2: 222 75% 9%;
     --sea-3: 205 100% 76%;
     --sea-4: 190 95% 70%;
-    --sea-aqua: 188 100% 72%;
+    --sea-aqua: 42 30% 77%; /* bone: the accent colour (A7) */
+    --bone-light: 41 50% 91%;
 
     --stone: 220 50% 12%;
     --clay: 278 90% 72%;
@@ -113,8 +117,11 @@
 
   .eyebrow, .eyebrow-light {
     @apply text-[0.7rem] uppercase tracking-[0.32em] font-semibold;
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: 0.42em;
     color: hsl(var(--sea-aqua));
-    text-shadow: 0 0 18px hsl(188 100% 72% / 0.45);
+    text-shadow: 0 1px 0 rgb(0 0 0 / 0.55);
   }
   .container-page { @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12; }
 
@@ -154,9 +161,18 @@
     color: transparent;
     animation: sheen 9s linear infinite;
   }
+  /* Accent lettering: inscriptional capitals in carved bone */
   .glow-text {
-    color: hsl(var(--sea-aqua));
-    text-shadow: 0 0 24px hsl(188 100% 72% / 0.55), 0 0 64px hsl(220 100% 60% / 0.45);
+    font-family: 'Cinzel', Georgia, serif;
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    background: linear-gradient(180deg, #f3ecdc 0%, #d8ccb0 38%, #9c8f72 62%, #e8dec6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 0 rgb(0 0 0 / 0.55)) drop-shadow(0 0 18px rgb(216 204 176 / 0.12));
   }
   .outline-text {
     color: transparent;

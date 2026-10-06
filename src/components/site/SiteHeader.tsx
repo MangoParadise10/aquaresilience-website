@@ -6,7 +6,7 @@ import { Mark } from "./Art";
 
 export const Wordmark = ({ className = "" }: { className?: string }) => (
   <span className={`flex items-center gap-3 ${className}`}>
-    <Mark className="h-10 w-10 drop-shadow-[0_0_12px_rgba(103,232,249,0.45)]" />
+    <Mark className="h-11 w-11 drop-shadow-[0_0_12px_rgba(200,215,240,0.35)]" />
     <span className="font-display text-xl font-extrabold uppercase tracking-[0.24em] silver-text">Dignoria</span>
   </span>
 );
