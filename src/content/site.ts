@@ -403,3 +403,26 @@ export const insightsPage = {
 /** People shown on the About page. Hidden while empty. */
 export type TeamMember = { name: string; role: string; bio: string; photo?: string; linkedin?: string };
 export const team: TeamMember[] = [];
+
+export const ethos = {
+  impossible: ["If they say it’s impossible…", "maybe for them.", "That doesn’t mean it’s impossible for you."],
+  crisis: "Where others see crises, we see openings.",
+  doorsLead: "When the front door is blocked, we look for the angle:",
+  doors: ["The side door", "The window", "The back door", "The opening no one mapped"],
+  collective: "History is not made up by individuals, but by individuals connected into groups.",
+  unthinkable: "Dignoria exists to make the unthinkable and the unimaginable possible.",
+  marquee: ["Water restored", "Dignity renewed", "Where others see crises, we see openings", "The side door", "The window", "The back door"],
+};
+
+export const persia = {
+  eyebrow: "Hymns of the ancients",
+  headline: "Persia carried water through the desert by gravity alone.",
+  intro:
+    "Beneath the Iranian plateau, generations of builders dug qanats: gently sloping tunnels that drew groundwater from the foot of the mountains and delivered it, without a single pump, to villages and gardens far away. Some still flow. They are a lesson in patience, maintenance and shared obligation.",
+  systems: [
+    { name: "Qanat", fa: "قنات", text: "Underground channels that tap groundwater at the foot of the mountains and carry it by gravity, through tunnels marked by lines of access shafts, to the surface where people live." },
+    { name: "Shushtar", fa: "شوشتر", text: "An island city whose canals, tunnels, weirs and water mills turned a river into irrigation and power, a system UNESCO traces back to the time of Darius the Great." },
+    { name: "Āb anbār", fa: "آب‌انبار", text: "Domed public cisterns that stored water for the dry months, kept cool by windcatchers that pulled the breeze down into the dark." },
+    { name: "Yakhchāl", fa: "یخچال", text: "Desert ice houses: shaded walls and deep domed chambers that froze winter water and kept ice into the heat of summer." },
+  ],
+};

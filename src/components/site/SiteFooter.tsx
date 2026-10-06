@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { boilerplate, brand, nav } from "@/content/site";
-import { Mark } from "./Art";
+import { Girih } from "./Art";
+import { Wordmark } from "./SiteHeader";
 
 const columns = [
   { title: "Explore", links: nav.filter((n) => ["/", "/why-dignoria", "/about", "/insights"].includes(n.to)) },
@@ -17,16 +18,14 @@ const columns = [
 ];
 
 export const SiteFooter = () => (
-  <footer className="sea-bg text-white/70 mt-auto">
-    <div className="container-page pt-20 pb-10">
+  <footer className="relative glass-strong !rounded-none !border-x-0 !border-b-0 text-white/70 mt-auto overflow-hidden">
+    <Girih className="absolute inset-0" opacity={0.08} />
+    <div className="relative container-page pt-20 pb-10">
       <div className="grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <Link to="/" className="flex items-center gap-2.5 text-white">
-            <Mark className="h-9 w-9" />
-            <span className="font-display text-3xl">Dignoria</span>
-          </Link>
-          <p className="mt-6 font-display text-2xl text-white leading-snug">
-            {brand.tagline[0]} <span className="italic text-sea-aqua">{brand.tagline[1]}</span>
+          <Link to="/" aria-label="Dignoria home"><Wordmark /></Link>
+          <p className="mt-8 literary text-4xl text-white leading-tight">
+            {brand.tagline[0]} <span className="glow-text">{brand.tagline[1]}</span>
           </p>
           <p className="mt-5 text-sm leading-relaxed max-w-md">{boilerplate.fiftyWord}</p>
           <Link to="/contact" className="btn-primary mt-8">Start a Conversation <ArrowRight className="h-4 w-4" /></Link>

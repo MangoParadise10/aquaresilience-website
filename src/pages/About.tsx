@@ -43,7 +43,7 @@ const TeamGrid = () => {
 
 const About = () => (
   <>
-    <PageHero eyebrow={about.title} title={<>{brand.tagline[0]} <span className="italic text-sea-aqua">{brand.tagline[1]}</span></>} lead={about.lead} />
+    <PageHero eyebrow={about.title} title={<>{brand.tagline[0]} <span className="literary glow-text !font-medium">{brand.tagline[1]}</span></>} lead={about.lead} />
 
     <Section>
       <div className="container-page grid lg:grid-cols-12 gap-12">
@@ -88,7 +88,7 @@ const About = () => (
           <div className="hidden lg:grid place-items-center font-display text-4xl text-sea-4">=</div>
           <Reveal delay={200} className="rounded-2xl sea-bg p-8 text-white flex flex-col justify-center">
             <div className="font-display text-4xl">Dignoria</div>
-            <p className="mt-4 font-display text-2xl leading-snug">{brand.tagline[0]} <span className="italic text-sea-aqua">{brand.tagline[1]}</span></p>
+            <p className="mt-4 font-display text-2xl leading-snug">{brand.tagline[0]} <span className="literary glow-text !font-medium">{brand.tagline[1]}</span></p>
           </Reveal>
         </div>
       </div>

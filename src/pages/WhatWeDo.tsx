@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 import { whatWeDo, whatWeDoPage } from "@/content/site";
 import { CtaBand, EmergingNote, Num, PageHero, Section, SectionHead } from "@/components/site/Blocks";
 import { Reveal } from "@/components/site/Reveal";
-import { serviceIcons } from "@/lib/icons";
+import { ServiceCards } from "./Index";
 
 const WhatWeDo = () => (
   <>
@@ -10,7 +10,7 @@ const WhatWeDo = () => (
       lead={<>{whatWeDoPage.intro.map((p) => <p key={p} className="mt-3 first:mt-0">{p}</p>)}</>}>
       <div className="mt-10 flex flex-wrap gap-2">
         {whatWeDo.disciplines.map((d) => (
-          <span key={d} className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-sm text-white/80">{d}</span>
+          <span key={d} className="rounded-full glass px-4 py-1.5 text-sm text-white/80">{d}</span>
         ))}
       </div>
     </PageHero>
@@ -18,23 +18,7 @@ const WhatWeDo = () => (
     <Section>
       <div className="container-page">
         <SectionHead eyebrow="Services" title="Six ways we help." intro={whatWeDo.intro} />
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {whatWeDo.services.map((s, i) => {
-            const Icon = serviceIcons[i];
-            return (
-              <Reveal key={s.title} delay={(i % 3) * 90} className="card-lift group p-8">
-                <div className="flex items-center justify-between">
-                  <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-sea-aqua transition-colors group-hover:bg-sea-aqua group-hover:text-primary">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <Num n={i + 1} />
-                </div>
-                <h3 className="mt-8 font-display text-2xl leading-tight">{s.title}</h3>
-                <p className="mt-4 text-muted-foreground leading-relaxed text-[0.95rem]">{s.text}</p>
-              </Reveal>
-            );
-          })}
-        </div>
+        <ServiceCards />
       </div>
     </Section>
 
