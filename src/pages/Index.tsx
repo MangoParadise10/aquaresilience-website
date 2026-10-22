@@ -15,13 +15,10 @@ const Hero = () => (
     <Noria className="pointer-events-none absolute -right-[18vw] top-1/2 -translate-y-1/2 w-[78vw] max-w-[1100px] opacity-[0.16]" />
     <div className="container-page relative flex-1 flex flex-col justify-center py-16">
       <div className="animate-fade-up">
-        <div className="inline-flex items-center gap-2 rounded-full glass px-4 py-1.5 text-xs text-white/80 mb-8">
-          <span className="h-1.5 w-1.5 rounded-full bg-clay shadow-[0_0_10px_hsl(var(--clay))]" /> An emerging water-resilience venture
-        </div>
         <div className="eyebrow mb-6">{hero.eyebrow}</div>
         <h1>
-          <span className="display block silver-text drop-shadow-[0_4px_30px_rgba(120,180,255,0.35)]">{brand.tagline[0]}</span>
-          <span className="literary block text-[3.25rem] sm:text-8xl lg:text-[8.5rem] leading-[0.95] glow-text mt-2">{brand.tagline[1]}</span>
+          <span className="display !text-[1.95rem] sm:!text-6xl lg:!text-[6rem] block silver-text drop-shadow-[0_4px_30px_rgba(120,180,255,0.35)]">{brand.tagline[0]}</span>
+          <span className="literary block text-[2.6rem] sm:text-7xl lg:text-[6.6rem] leading-[0.95] glow-text mt-2">{brand.tagline[1]}</span>
         </h1>
       </div>
       <div className="mt-12 grid lg:grid-cols-12 gap-6 items-end">
@@ -111,38 +108,13 @@ const Meaning = () => (
 const Ethos = () => (
   <section className="relative py-28 md:py-40 overflow-hidden">
     <div className="container-page relative">
-      <Reveal>
-        <p className="font-display font-extrabold uppercase tracking-tight leading-[0.9] text-[1.95rem] sm:text-7xl lg:text-[6.2rem] outline-text">{ethos.impossible[0]}</p>
+      <Reveal className="glass-strong rounded-[2rem] p-8 md:p-16 relative overflow-hidden">
+        <Girih className="absolute inset-0" opacity={0.14} />
+        <div className="relative max-w-5xl">
+          <div className="eyebrow mb-6">{ethos.principleLabel}</div>
+          <p className="literary text-3xl md:text-5xl lg:text-[3.6rem] leading-[1.12] text-white">“{ethos.collective}”</p>
+        </div>
       </Reveal>
-      <Reveal delay={150}>
-        <p className="font-display font-extrabold uppercase tracking-tight leading-[0.9] text-[1.95rem] sm:text-7xl lg:text-[6.2rem] silver-text mt-2">{ethos.impossible[1]}</p>
-      </Reveal>
-      <Reveal delay={300}>
-        <p className="literary text-3xl sm:text-4xl lg:text-[3.4rem] leading-[1.08] glow-text mt-6 max-w-5xl">{ethos.impossible[2]}</p>
-      </Reveal>
-
-      <div className="mt-20 grid lg:grid-cols-12 gap-6">
-        <Reveal className="lg:col-span-7 glass-strong rounded-[2rem] p-8 md:p-12 relative overflow-hidden">
-          <Girih className="absolute inset-0" opacity={0.14} />
-          <div className="relative">
-            <div className="eyebrow mb-5">Interdependence</div>
-            <p className="literary text-3xl md:text-[2.6rem] leading-[1.15] text-white">“{ethos.collective}”</p>
-            <p className="mt-6 text-white/70 leading-relaxed">{ethos.unthinkable}</p>
-          </div>
-        </Reveal>
-        <Reveal delay={150} className="lg:col-span-5 glass rounded-[2rem] p-8 md:p-12">
-          <div className="eyebrow mb-5">The angle</div>
-          <p className="font-display text-2xl md:text-3xl font-bold leading-tight">{ethos.crisis}</p>
-          <p className="mt-6 text-white/70">{ethos.doorsLead}</p>
-          <ul className="mt-4 space-y-2">
-            {ethos.doors.map((d, i) => (
-              <li key={d} className="flex items-center gap-4 border-b border-white/10 py-2.5 font-display text-lg">
-                <span className="text-sea-aqua text-sm tabular-nums">{String(i + 1).padStart(2, "0")}</span>{d}
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-      </div>
     </div>
   </section>
 );

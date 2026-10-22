@@ -405,13 +405,9 @@ export type TeamMember = { name: string; role: string; bio: string; photo?: stri
 export const team: TeamMember[] = [];
 
 export const ethos = {
-  impossible: ["If they say it’s impossible…", "maybe for them.", "That doesn’t mean it’s impossible for you."],
-  crisis: "Where others see crises, we see openings.",
-  doorsLead: "When the front door is blocked, we look for the angle:",
-  doors: ["The side door", "The window", "The back door", "The opening no one mapped"],
+  principleLabel: "Our guiding principle",
   collective: "History is not made up by individuals, but by individuals connected into groups.",
-  unthinkable: "Dignoria exists to make the unthinkable and the unimaginable possible.",
-  marquee: ["Water restored", "Dignity renewed", "Where others see crises, we see openings", "The side door", "The window", "The back door"],
+  marquee: ["Water restored", "Dignity renewed"],
 };
 
 export const persia = {
