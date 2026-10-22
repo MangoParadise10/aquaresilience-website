@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
 import { Seo } from "./Seo";
+import { Ocean } from "./Ocean";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -11,7 +12,8 @@ const ScrollToTop = () => {
 };
 
 export const Layout = () => (
-  <div className="min-h-screen flex flex-col">
+  <div className="relative min-h-screen flex flex-col isolate">
+    <Ocean />
     <ScrollToTop />
     <Seo />
     <SiteHeader />

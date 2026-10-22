@@ -1,26 +1,30 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import type { ReactNode } from "react";
-import { FlowLines, Noria } from "./Art";
+import { Girih, Noria } from "./Art";
 import { Reveal } from "./Reveal";
 import { finalCta } from "@/content/site";
 
 export const Section = ({ children, className = "", id }: { children: ReactNode; className?: string; id?: string }) => (
-  <section id={id} className={`py-20 md:py-28 ${className}`}>{children}</section>
+  <section id={id} className={`relative py-16 md:py-24 ${className}`}>{children}</section>
 );
 
-/** Dark hero used at the top of every inner page. */
+/** A glass floor: a translucent slab floating over the water. */
+export const Floor = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
+  <Reveal className={`glass-strong rounded-[2rem] p-7 sm:p-10 md:p-14 ${className}`}>{children}</Reveal>
+);
+
+/** Hero used at the top of every inner page: the ocean shows through. */
 export const PageHero = ({ eyebrow, title, lead, children }: {
   eyebrow: string; title: ReactNode; lead?: ReactNode; children?: ReactNode;
 }) => (
-  <section className="relative overflow-hidden sea-bg text-primary-foreground -mt-20 pt-20">
-    <FlowLines className="absolute inset-x-0 bottom-0 h-48 w-full text-sea-aqua/40" />
-    <Noria className="absolute -right-32 -top-24 w-[520px] text-white/[0.06] hidden md:block" />
-    <div className="container-page relative py-20 md:py-28">
-      <div className="max-w-4xl animate-fade-up">
-        <div className="eyebrow-light mb-6">{eyebrow}</div>
-        <h1 className="display-md text-white">{title}</h1>
-        {lead && <div className="lede mt-7 text-white/75 max-w-3xl">{lead}</div>}
+  <section className="relative overflow-hidden -mt-20 pt-20">
+    <Noria className="pointer-events-none absolute -right-40 -top-20 w-[640px] opacity-[0.12] hidden md:block" />
+    <div className="container-page relative pt-20 pb-16 md:pt-28 md:pb-24">
+      <div className="max-w-5xl animate-fade-up">
+        <div className="eyebrow mb-6">{eyebrow}</div>
+        <h1 className="display-md silver-text drop-shadow-[0_4px_30px_rgba(120,180,255,0.3)]">{title}</h1>
+        {lead && <div className="mt-8 max-w-3xl glass rounded-3xl p-6 md:p-8 text-lg md:text-xl leading-relaxed text-white/85">{lead}</div>}
         {children}
       </div>
     </div>
@@ -28,20 +32,20 @@ export const PageHero = ({ eyebrow, title, lead, children }: {
   </section>
 );
 
-export const SectionHead = ({ eyebrow, title, intro, center = false, light = false }: {
+export const SectionHead = ({ eyebrow, title, intro, center = false }: {
   eyebrow?: string; title: ReactNode; intro?: ReactNode; center?: boolean; light?: boolean;
 }) => (
   <Reveal className={`max-w-3xl ${center ? "mx-auto text-center" : ""}`}>
-    {eyebrow && <div className={`${light ? "eyebrow-light" : "eyebrow"} mb-4`}>{eyebrow}</div>}
-    <h2 className={`display-sm ${light ? "text-white" : ""}`}>{title}</h2>
-    {intro && <div className={`mt-6 text-lg leading-relaxed ${light ? "text-white/75" : "text-muted-foreground"}`}>{intro}</div>}
+    {eyebrow && <div className="eyebrow mb-4">{eyebrow}</div>}
+    <h2 className="display-sm text-white">{title}</h2>
+    {intro && <div className="mt-6 text-lg leading-relaxed text-white/75">{intro}</div>}
   </Reveal>
 );
 
 /** Emerging-venture label, shown wherever capabilities are described. */
-export const EmergingNote = ({ children, light = false }: { children: ReactNode; light?: boolean }) => (
-  <div className={`flex gap-3 items-start rounded-xl border px-5 py-4 text-sm leading-relaxed ${light ? "border-white/15 text-white/70 bg-white/[0.03]" : "border-clay/30 bg-clay/[0.06] text-foreground/75"}`}>
-    <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-clay" />
+export const EmergingNote = ({ children }: { children: ReactNode; light?: boolean }) => (
+  <div className="flex gap-3 items-start rounded-xl border border-clay/40 bg-clay/[0.08] backdrop-blur-md px-5 py-4 text-sm leading-relaxed text-white/80">
+    <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-clay shadow-[0_0_10px_hsl(var(--clay))]" />
     <span>{children}</span>
   </div>
 );
@@ -50,11 +54,12 @@ export const EmergingNote = ({ children, light = false }: { children: ReactNode;
 export const CtaBand = () => (
   <section className="py-20 md:py-28">
     <div className="container-page">
-      <Reveal className="relative overflow-hidden rounded-3xl sea-bg text-white px-8 py-14 md:px-16 md:py-20">
-        <Noria className="absolute -right-24 -bottom-40 w-[480px] text-white/[0.07]" />
-        <div className="relative max-w-2xl">
-          <h2 className="display-sm text-white">{finalCta.headline}</h2>
-          <p className="mt-6 text-lg text-white/75 leading-relaxed">{finalCta.body}</p>
+      <Reveal className="relative overflow-hidden rounded-[2.5rem] glass-strong px-8 py-16 md:px-16 md:py-24">
+        <Girih className="absolute inset-0" opacity={0.12} />
+        <Noria className="absolute -right-24 -bottom-48 w-[560px] opacity-25" />
+        <div className="relative max-w-3xl">
+          <h2 className="display-md silver-text">{finalCta.headline}</h2>
+          <p className="mt-6 text-lg text-white/80 leading-relaxed">{finalCta.body}</p>
           <div className="mt-10 flex flex-wrap gap-3">
             <Link to="/contact" className="btn-primary">{finalCta.primary} <ArrowRight className="h-4 w-4" /></Link>
             <Link to="/contact?topic=partner" className="btn-ghost-light">{finalCta.secondary}</Link>
@@ -65,6 +70,6 @@ export const CtaBand = () => (
   </section>
 );
 
-export const Num = ({ n, light = false }: { n: number; light?: boolean }) => (
-  <span className={`font-display text-sm tabular-nums ${light ? "text-sea-aqua" : "text-sea-4"}`}>{String(n).padStart(2, "0")}</span>
+export const Num = ({ n }: { n: number; light?: boolean }) => (
+  <span className="font-display text-sm font-bold tabular-nums text-sea-aqua">{String(n).padStart(2, "0")}</span>
 );
